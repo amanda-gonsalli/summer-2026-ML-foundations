@@ -7,7 +7,7 @@ Build practical machine learning and Bayesian inference foundations for research
 May 20 – August 20
 
 ## Resources
-- Andrew Ng Machine Learning Specialization
+- Andrew Ng Machine Learning Course CS229
 - Think Bayes
 - Probabilistic Machine Learning
 
