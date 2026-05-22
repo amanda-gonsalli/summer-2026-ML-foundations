@@ -6,7 +6,7 @@ You have a training set $(x,y)$ fed into a learning algorithm. It generates a fu
 You may have more than one input features, like $x_1$, $x_2$, $x_3$, etc.
 
 $$ 
-h(x) = \theta_0 + \theta_1 x_1 + \theta_2 x_2 + ... + \theta_n x_n
+h(x) = \theta_0 x_0 + \theta_1 x_1 + \theta_2 x_2 + ... + \theta_n x_n
 $$
 
 Or, more concisely:
@@ -43,10 +43,11 @@ x_n
 \end{bmatrix}
 $$
 
-Define $M$ as the number of training examples, that is, the number of datapairs $(x,y)$
-Define $y$ as the output/ target variable
-Define $(x^{(i)}, y^{(i)})$ as the i'th training example. In that case, $i$ runs from 1 to M
-Finally, define $n$ as the number of features. In the example above, n = 2
+Some definitions:
+* Define $M$ as the number of training examples, that is, the number of datapairs $(x,y)$
+* Define $y$ as the output/ target variable
+* Define $(x^{(i)}, y^{(i)})$ as the $i'th$ training example. In that case, $i$ runs from 1 to M
+* Finally, define $n$ as the number of features. In the example above, n = 2
 
 With that in mind, if we have $n$ features, $x$ and $\theta$ are $n+1$ dimensional vectors
 
@@ -54,11 +55,11 @@ With that in mind, if we have $n$ features, $x$ and $\theta$ are $n+1$ dimension
 
 Choose $\theta$ such that $h(x) \approx y$ for the training examples
 
-Note that instead of writing $h(x)$, we write $h_{\theta} (x)$ to emphasize that the hypothesis depends on both the parameter $\theta$ and the input $x$
+Note that instead of writing $h(x)$, we can write $h_{\theta} (x)$ to emphasize that the hypothesis depends on both the parameter $\theta$ and the input $x$
 
-In linear regression, we want to minimize the square different of what the hypothesis outputs and the actual output from the training set. We do that by choosing the optimal $\theta$
+In linear regression, we want to **minimize the square difference of what the hypothesis outputs and the actual output from the training set**. We do that by choosing the optimal $\theta$ value
 
-Define the cross-function $J(\theta)$ as follows:
+Define the **cross-function** $J(\theta)$ as follows:
 $$
 J(\theta) = \frac{1}{2}\sum_{i = 1}^M(h_\theta(x^{(i)}) - y)^2
 $$
@@ -85,7 +86,7 @@ $$
 
 Note: $;=$ denotes that the value on the right is being assigned to the value on the left
 
-In the equation, $\alpha$ is the learning rate, and that gets multiplied by the direction of steepest ascent (gradient of the cross-function)
+In the equation, $\alpha$ is the **learning rate**, and that gets multiplied by the direction of steepest ascent (**gradient of the cross-function**)
 
 Explicitly writing the derivative, we have
 $$
@@ -103,7 +104,7 @@ $$
 
 Gradient descent is about repeating this iteration until it converges.
 
-Graphically, $J(\theta)$ is a degree 2 expression, so the graph is the 3d extension of a parabola. It therefore has no local minima other than the global minimum. Also, the countour map of the cross-function is composed of ellipses. This ensures the algorithm will eventually converge to the gloal minimum.
+Graphically, $J(\theta)$ is a degree 2 expression, so the graph is the **3d extension of a parabola**. It therefore has no local minima other than the global minimum. Also, the countour map of the cross-function is composed of ellipses. This ensures **the algorithm will eventually converge to the gloal minimum**, thus motivaing the choice of the square difference over some other form of error measurement.
 
 ### How to choose $\alpha$?
 
@@ -126,9 +127,9 @@ Update for every $j$.
 
 Note: instead of iterating over all $i$ for one update (one step in the descent), this method considers only one $i$, updates $\theta_j$, then move on to the next $i$. 
 
-You change the parameter based on one example at a time, which makes the steps not go perpendicular to the countour map lines (takes "longer" paths). But for larger datasets this method makes faster progress. 
+You **change the parameter based on one example at a time**, which makes the steps not go perpendicular to the countour map lines (takes "longer" paths). But for larger datasets this method makes faster progress. 
 
-Stochastic gradient doesn't converge exactly to the global minimum, but still gets very good parameter values. What is often done is decreasing the learning rate on this method to get a better estimate, but that still won't be as precise as Batch. Stochastic is still preferred for large datasets due to Batch being extremely slow for those cases.
+Stochastic gradient **doesn't converge exactly to the global minimum**, but still gets very good parameter values. What is often done is decreasing the learning rate on this method to get a better estimate, but that still won't be as precise as Batch. Nevertheless, stochastic is preferred for large datasets due to Batch being extremely slow for those cases.
 
 ## The Normal Equation (only works for Linear Regression)
 
@@ -139,7 +140,8 @@ $$
 \begin{bmatrix}
 \frac{\partial}{\partial \theta_0} J \\
 \frac{\partial}{\partial \theta_1} J \\
-\frac{\partial}{\partial \theta_2} J
+\frac{\partial}{\partial \theta_2} J \\
+\dots
 \end{bmatrix}
 $$
 
@@ -156,7 +158,7 @@ $$
 
 We want to minimize the cross-function, that is, $\nabla_\theta J(\theta) \stackrel{\text{set}}{=} \vec{0}$
 
-If $A$ is a square matrix, define the "trace of A" $tr A = \sum_i A_{ii}$ as the sum of diagonal entries. 
+If $A$ is a square matrix, define the "trace of A" $tr A = \sum_i A_{ii}$ as the sum of the main diagonal entries. 
 
 Some properies of the "trace":
 * $tr A = tr A^T$
@@ -172,7 +174,7 @@ $$
 J(\theta) = \frac{1}{2}\sum_{i = 1}^M (h(x^{(i)}) - y^{(i)})^2
 $$
 
-Define the design matrix $X$ as follows:
+Define the **design matrix** $X$, which stacks the input data, as follows:
 
 $$
 X = 
@@ -198,7 +200,7 @@ X\theta =
 \theta_0\\
 \theta_1 \\
 \dots \\
-\theta_M
+\theta_n
 \end{bmatrix}
 = 
 \begin{bmatrix}
