@@ -6,7 +6,7 @@ You have a training set $(x,y)$ fed into a learning algorithm. It generates a fu
 You may have more than one input features, like $x_1$, $x_2$, $x_3$, etc.
 
 $$ 
-h(x) = \theta_0 x_0 + \theta_1 x_1 + \theta_2 x_2 + ... + \theta_n x_n
+h(x) = x_0 + \theta_1 x_1 + \theta_2 x_2 + ... + \theta_n x_n
 $$
 
 Or, more concisely:
@@ -59,9 +59,9 @@ Note that instead of writing $h(x)$, we can write $h_{\theta} (x)$ to emphasize 
 
 In linear regression, we want to **minimize the square difference of what the hypothesis outputs and the actual output from the training set**. We do that by choosing the optimal $\theta$ value
 
-Define the **cross-function** $J(\theta)$ as follows:
+Define the **cost function** $J(\theta)$ as follows:
 $$
-J(\theta) = \frac{1}{2}\sum_{i = 1}^M(h_\theta(x^{(i)}) - y)^2
+J(\theta) = \frac{1}{2M}\sum_{i = 1}^M(h_\theta(x^{(i)}) - y^{(i)})^2
 $$
 
 We want to minimize $J(\theta)$
@@ -77,7 +77,7 @@ In a 3d graph, you can plot $\theta_0$ and $\theta_1$, mapping them to the $J(\t
 
 We start at some point in the surface (initial parameter values). Look around that point and see which direction will bring you to the lowest possible value in one tiny step. Then, we repeat this process on the new location. 
 
-Eventually, you'll get to a point where there's no direction that brings you further down. This is a minimum of the the cross-function. However, there can be many local minima.
+Eventually, you'll get to a point where there's no direction that brings you further down. This is a minimum of the the cost function. However, there can be many local minima.
 
 ### Formal definition
 $$
@@ -86,7 +86,7 @@ $$
 
 Note: $;=$ denotes that the value on the right is being assigned to the value on the left
 
-In the equation, $\alpha$ is the **learning rate**, and that gets multiplied by the direction of steepest ascent (**gradient of the cross-function**)
+In the equation, $\alpha$ is the **learning rate**, and that gets multiplied by the direction of steepest ascent (**gradient of the cost function**)
 
 Explicitly writing the derivative, we have
 $$
@@ -99,12 +99,12 @@ $$
 Now remember there are $M$ training examples, so the equation becomes the following:
 
 $$
-\theta_j \, ;= \theta_j - \alpha \, \sum_{i=1}^M(h_\theta (x^{(i)}) - y^{(i)}) \, x^{(i)}_j \hspace{10pt} (j = 0, 1, 2, ..., n) 
+\theta_j \, ;= \theta_j - \frac{\alpha}{M} \, \sum_{i=1}^M(h_\theta (x^{(i)}) - y^{(i)}) \, x^{(i)}_j \hspace{10pt} (j = 0, 1, 2, ..., n) 
 $$
 
 Gradient descent is about repeating this iteration until it converges.
 
-Graphically, $J(\theta)$ is a degree 2 expression, so the graph is the **3d extension of a parabola**. It therefore has no local minima other than the global minimum. Also, the countour map of the cross-function is composed of ellipses. This ensures **the algorithm will eventually converge to the gloal minimum**, thus motivaing the choice of the square difference over some other form of error measurement.
+Graphically, $J(\theta)$ is a degree 2 expression, so the graph is the **3d extension of a parabola**. It threfore has noe local minima other than the global minimum. Also, the countour map of the cost function is composed of ellipses. This ensures **the algorithm will eventually converge to the gloal minimum**, thus motivaing the choice of the square difference over some other form of error measurement.
 
 ### How to choose $\alpha$?
 
@@ -156,7 +156,7 @@ $$
 \end{bmatrix}
 $$
 
-We want to minimize the cross-function, that is, $\nabla_\theta J(\theta) \stackrel{\text{set}}{=} \vec{0}$
+We want to minimize the cost function, that is, $\nabla_\theta J(\theta) \stackrel{\text{set}}{=} \vec{0}$
 
 If $A$ is a square matrix, define the "trace of A" $tr A = \sum_i A_{ii}$ as the sum of the main diagonal entries. 
 
@@ -168,10 +168,10 @@ Some properies of the "trace":
 * $\nabla_A \, tr AA^TC = CA + C^TA$
     * Think of this one as analogous to $\frac{d}{da}a^2c = 2ac$
 
-Now, take the cross-function again
+Now, take the cost function again
 
 $$
-J(\theta) = \frac{1}{2}\sum_{i = 1}^M (h(x^{(i)}) - y^{(i)})^2
+J(\theta) = \frac{1}{2M}\sum_{i = 1}^M (h(x^{(i)}) - y^{(i)})^2
 $$
 
 Define the **design matrix** $X$, which stacks the input data, as follows:
@@ -262,24 +262,24 @@ $$
 
 This is just all the errors from the algorithm.
 
-Since for any matrix $Z$ we have that $ZZ^T = \sum_i Z^2$, we expression for the cross-function returns to the one we previously had. 
+Since for any matrix $Z$ we have that $ZZ^T = \sum_i Z^2$, we expression for the cost function returns to the one we previously had. 
 
 $$
-J(\theta) = \frac{1}{2} (X\theta - \vec{y})^T (X\theta - \vec{y}) = \frac{1}{2}\sum_{i = 1}^M (h(x^{(i)}) - y^{(i)})^2
+J(\theta) = \frac{1}{2M} (X\theta - \vec{y})^T (X\theta - \vec{y}) = \frac{1}{2M}\sum_{i = 1}^M (h(x^{(i)}) - y^{(i)})^2
 $$
 
-Finally, consider the derivative of the cross-function with respect to $\theta$
+Finally, consider the derivative of the cost function with respect to $\theta$
 
 $$
-\nabla_\theta J(\theta) = \nabla_\theta \, \frac{1}{2} (X\theta - \vec{y})^T (X\theta - \vec{y}) = \frac{1}{2} \nabla_\theta \,(\theta^TX^T - \vec{y}^T)(X\theta - \vec{y}) \\
-= \frac{1}{2} \nabla_\theta \, (\theta^TX^TX\theta - \theta^T X^T\vec{y} - \vec{y}^TX\theta + \vec{y}^T\vec{y}) = \frac{1}{2}(X^TX\theta + X^TX\theta - X^T\vec{y}-X^T\vec{y})\\
-\nabla_\theta J(\theta) = X^TX\theta - X^T\vec{y}
+\nabla_\theta J(\theta) = \nabla_\theta \, \frac{1}{2M} (X\theta - \vec{y})^T (X\theta - \vec{y}) = \frac{1}{2M} \nabla_\theta \,(\theta^TX^T - \vec{y}^T)(X\theta - \vec{y}) \\
+= \frac{1}{2M} \nabla_\theta \, (\theta^TX^TX\theta - \theta^T X^T\vec{y} - \vec{y}^TX\theta + \vec{y}^T\vec{y}) = \frac{1}{2M}(X^TX\theta + X^TX\theta - X^T\vec{y}-X^T\vec{y})\\
+\nabla_\theta J(\theta) = \frac{1}{M}(X^TX\theta - X^T\vec{y})
 $$
 
 Now we set it to zero
 
 $$
-\nabla_\theta J(\theta) = X^TX\theta - X^T\vec{y} = 0\\
+\nabla_\theta J(\theta) = \frac{1}{M}(X^TX\theta - X^T\vec{y}) = 0\\
 X^TX\theta = X^T\vec{y}
 $$
 
