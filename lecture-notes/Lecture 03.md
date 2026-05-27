@@ -14,7 +14,7 @@ Localy weighted regression is a non-parametric algorithm. To evaluate $h$ at cer
 
 ### Mathemtical definition
 
-Fit $\theta$ to minimize the following adjusted cross-frunction:
+Fit $\theta$ to minimize the following adjusted cost function:
 
 $$
 J(\theta) = \sum_{i = 1}^M w^{(i)} (y^{(i)} - \theta^Tx^{(i)})^2
@@ -178,7 +178,7 @@ Newton's Method operates under **quadratic convergence**, which means the amount
 The assigment becomes the following:
 
 $$
-\theta^{(t+1)} ;= \theta^{(t)} + H^{-1}\nabla_\theta\, l
+\theta^{(t+1)}\, ;= \theta^{(t)} + H^{-1}\nabla_\theta\, l
 $$
 
 Where $H$ is the Hessian matrix, defined as follows:
