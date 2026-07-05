@@ -114,6 +114,56 @@ $$
 
 The first term can be evaluated by the Gaussian density of mean $\mu_1$ and covariance $\Sigma$. For fixed parameters, this is a constant. The second term is a Brenoulli, the probability of y being 1 given the parameter $\phi$ is $\phi$ itself. Similarly, the denominator depends on known numbers. Hence, we can calculate this ratio to find a number for the probability of y being y given x.
 
+The plot turns out to be the sigmoid function, just like in Logistic Regression. However, the two algorithms generate two different decision boundaries.
 
+### When to use generative and when to use discriminative models?
+GDA assumes $x$ is Gaussian and $y$ is Bernoulli.
 
+Logistic regression uses $P(y = 1|x) = \frac{1}{1+e^{-\thetaˆTx}}$, and also sets $x_0 = 1$.
 
+The assumptions from DGA imply that $P(y = 1|x)$ follows the sigmoid function for $-\theta^Tx$. The contrary, however, is not true. This means that a GDA uses stronger assumptions than Logistic Regression. Therefore, if the assumptions are generally correct, GDAs do better, if the assumptions are not so correct, then GDA does poorly.
+
+Now, assume that x is Poisson ($\lambda_0, \lambda_1$) and that $y$ is Berboulli. Again, this implies that $P(y = 1|x) = \frac{1}{1+e^{-\theta^Tx}}$.
+
+In reality, this is true for any Generalized Linear Model where $x$ given $y =1$ and $y = 0$ both come from the same exponential family distribution.
+
+In Linear Regression, you don't need to know if the data is Gaussian or Poisson or etc and the model works fine. For GDA, however, you need to know the tyoe of the data beforehand.
+
+You have two main options: stronger assumptions with less data, or weaker assumptions with more data. GDA is also more efficient and faster.
+
+## Naive Bayes
+
+How to get a feature vector $x$?
+
+Consider a spam detector program. First, it needs to take an email and turn it into a vector $x$. One way of doing this is by selecting the most recurring words in the training set and have 1 for words in the email and 0 for those that are not. Therefore, assuming we have $n$ words, we now have  $x\in\{0,1\}^n$.
+
+Want to model $P(x|y), P(y)$.
+
+Assume the $x_i$'s are conditionally independent given $y$, that is:
+
+$$
+P(x_1, x_2, \dots, x_n|y ) = P(x_1|y)P(x_2|y) \dots, P(x_n|y) = \prod_{i = 1}^nP(x_i|y)
+$$
+
+The parameters of Naive Bayes are the following:
+
+$$
+\phi_{j|y = 1} = P(x_j = 1 | y = 1) \\
+\phi_{j|y = 0} = P(x_j = 1 | y = 0) \\
+\phi_y =P(y = 1)
+$$
+
+For $j$ in $[1,n]$
+
+Write out the Joint Likelihood:
+
+$$
+\mathcal{L}(\phi_y, \phi_{j | y}) = \prod_{i = 1}^m P(x^{(i)}, y^{(i)};\phi_y, \phi_{j|y})
+$$
+
+Then MLE gives:
+
+$$
+\phi_y = \frac{\sum_{i = 1}^m \mathcal{I}\{y^{(i)} = 1\}}{m}\\
+\phi_{j|y = 1} = \frac{\sum_{i = 1}^m \mathcal{I}\{x^{(i)}_j = 1, y^{(i)} = 1\}}{\sum_{i = 1}^m \mathcal{I}\{y^{(i)} = 1\}}
+$$
